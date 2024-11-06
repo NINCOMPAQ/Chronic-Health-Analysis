@@ -18,7 +18,7 @@ for (topic in names(split_data)) {
   assign(paste0("table_", gsub(" ", "_", topic)), split_data[[topic]])
 }
 
-unique_questions <- unique(table_Sleep$Question)
+unique_questions <- unique(table_Mental_Health$Question)
 
 print(unique_questions)
 
