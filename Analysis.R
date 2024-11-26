@@ -30,7 +30,7 @@ ggplot(data2019BPDep, aes(x = DataValue_depression, y = DataValue_highBloodPress
   geom_point() +
   labs(x = "Depression",  y = "High Blood Pressure",title = "2019 Depression vs. High Blood Pressure") +
   theme_minimal()
-ggsave(filename = here('figs', 'DepressionVHighBP.png'), device = png)
+ggsave(filename = here('figs', 'DepressionVHighBP.jpeg'))
 
 depression_avg <- depression %>%
   group_by(LocationAbbr) %>%
@@ -42,7 +42,10 @@ highBP_avg <- HeartDiseaseMortality %>%
 merged_data <- depression_avg %>%
   left_join(highBP_avg, by = "LocationAbbr") %>%
   arrange(LocationAbbr) %>% 
-  filter(LocationAbbr != "US") 
+  filter(LocationAbbr != "US") %>%
+  filter(LocationAbbr != "VI") %>%
+  filter(LocationAbbr != "PR") %>%
+  filter(LocationAbbr != "GU")
 
 ggplot(merged_data, aes(x = reorder(LocationAbbr, DepressionAvg), y = BPAvg)) +
   geom_bar(stat = "identity", fill = "steelblue") +
@@ -53,7 +56,7 @@ ggplot(merged_data, aes(x = reorder(LocationAbbr, DepressionAvg), y = BPAvg)) +
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
-ggsave(filename = here('figs', 'DepressionVHighBPBarGraph.png'), device = png)
+ggsave(filename = here('figs', 'DepressionVHighBPBarGraph.jpeg'))
 
 # Binge Drinking v Heart Disease Mortality
 HeartDiseaseMortality <- CVDisease %>%
@@ -70,7 +73,7 @@ ggplot(data2019DrinkingHeartDisease, aes(x = DataValue_BingeDrinking, y = DataVa
   geom_point() +
   labs(x = "Binge Drinking",  y = "Heart Disease Mortality",title = "2019 Heart Disease Mortality vs. Binge Drinking") +
   theme_minimal()
-ggsave(filename = here('figs', 'HearDiseaseVsBingeDrinking.png'), device = png)
+ggsave(filename = here('figs', 'HearDiseaseVsBingeDrinking.jpeg'))
 
 binge_avg <- BingeDrinking %>%
   group_by(LocationAbbr) %>%
@@ -95,7 +98,7 @@ ggplot(merged_data, aes(x = reorder(LocationAbbr, BingeAvg), y = HeartDiseaseMor
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
-ggsave(filename = here('figs', 'HearDiseaseVsBingeDrinkingBarGraph.png'), device = png)
+ggsave(filename = here('figs', 'HearDiseaseVsBingeDrinkingBarGraph.jpeg'))
 
 # Diabetes v Multiple CVD
 diabetesAdults <- diabetes %>%
@@ -112,7 +115,7 @@ ggplot(data2019HeartDiseaseDiabetes, aes(x = DataValue_HeartDiseaseMortality, y 
   geom_point() +
   labs(x = "Heart Disease Mortality",  y = "Adult Diabetes",title = "2019 Heart Disease Mortality vs. Adult Diabetes") +
   theme_minimal()
-ggsave(filename = here('figs', 'HearDiseaseVsDiabetes.png'), device = png)
+ggsave(filename = here('figs', 'HearDiseaseVsDiabetes.jpeg'))
 
 mergedDataCholesteralDiabetes <- inner_join(Cholesterol, diabetesAdults, by = c("LocationDesc", "YearStart", "YearEnd"), suffix = c("_Cholesterol", "_DiabetesAdults"))
 data2019CholesteralDiabetes <- mergedDataCholesteralDiabetes %>%
@@ -122,7 +125,7 @@ ggplot(data2019CholesteralDiabetes, aes(x = DataValue_Cholesterol, y = DataValue
   geom_point() +
   labs(x = "Cholesterol",  y = "Adult Diabetes",title = "2019 High Colesteral vss Adult Diabetes") +
   theme_minimal()
-ggsave(filename = here('figs', 'CholesteralVsDiabetes.png'), device = png)
+ggsave(filename = here('figs', 'CholesteralVsDiabetes.jpeg'))
 
 # CLEAN UP #################################################
 
